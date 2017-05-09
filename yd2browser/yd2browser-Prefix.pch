@@ -1,0 +1,25 @@
+//
+//  yd2browser-Prefix.pch
+//  yd2browser
+//
+//  Created by yunfenghan Ling on 7/8/16.
+//  Copyright © 2016 lingyfh. All rights reserved.
+//
+
+#ifndef yd2browser_Prefix_pch
+#define yd2browser_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* yd2browser_Prefix_pch */
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "config.h"
+#import "AppDelegate.h"
+
+#define UMengChannel @"AppStore"
+
+#endif

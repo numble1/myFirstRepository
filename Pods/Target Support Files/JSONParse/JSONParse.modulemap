@@ -1,0 +1,6 @@
+framework module JSONParse {
+  umbrella header "JSONParse-umbrella.h"
+
+  export *
+  module * { export * }
+}

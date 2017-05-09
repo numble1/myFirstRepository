@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="categatoryView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="620" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n7h-Kb-YiA">
+                    <rect key="frame" x="20" y="5" width="31" height="40"/>
+                    <state key="normal" title="社会"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q0p-Sh-aMy">
+                    <rect key="frame" x="81" y="5" width="31" height="40"/>
+                    <state key="normal" title="国内"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="941-Ct-xpa">
+                    <rect key="frame" x="142" y="5" width="31" height="40"/>
+                    <state key="normal" title="娱乐"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lm0-7z-AcG">
+                    <rect key="frame" x="203" y="5" width="31" height="40"/>
+                    <state key="normal" title="国际"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wj6-3r-4r2">
+                    <rect key="frame" x="264" y="5" width="31" height="40"/>
+                    <state key="normal" title="财经"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b28-nc-tZh">
+                    <rect key="frame" x="386" y="5" width="31" height="40"/>
+                    <state key="normal" title="科技"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3w6-G2-iHY">
+                    <rect key="frame" x="447" y="5" width="31" height="40"/>
+                    <state key="normal" title="历史"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NYH-c5-4gg">
+                    <rect key="frame" x="508" y="5" width="31" height="40"/>
+                    <state key="normal" title="星座"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZY-jI-BhE">
+                    <rect key="frame" x="569" y="5" width="31" height="40"/>
+                    <state key="normal" title="健康"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4YI-n3-wGz">
+                    <rect key="frame" x="325" y="5" width="31" height="40"/>
+                    <state key="normal" title="军事"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Q0p-Sh-aMy" firstAttribute="leading" secondItem="n7h-Kb-YiA" secondAttribute="trailing" constant="30" id="0us-w0-HAJ"/>
+                <constraint firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" constant="5" id="4Wb-BR-f64"/>
+                <constraint firstItem="NYH-c5-4gg" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="5gh-aP-Xta"/>
+                <constraint firstItem="4YI-n3-wGz" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="6Bx-Fq-890"/>
+                <constraint firstItem="wj6-3r-4r2" firstAttribute="leading" secondItem="Lm0-7z-AcG" secondAttribute="trailing" constant="30" id="6ja-lo-EHd"/>
+                <constraint firstItem="Lm0-7z-AcG" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="7Qm-Vw-mR0"/>
+                <constraint firstItem="Q0p-Sh-aMy" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="FaT-2l-Oa5"/>
+                <constraint firstItem="Lm0-7z-AcG" firstAttribute="leading" secondItem="941-Ct-xpa" secondAttribute="trailing" constant="30" id="H15-N4-nD5"/>
+                <constraint firstItem="b28-nc-tZh" firstAttribute="leading" secondItem="4YI-n3-wGz" secondAttribute="trailing" constant="30" id="HGs-mj-tfa"/>
+                <constraint firstItem="NYH-c5-4gg" firstAttribute="leading" secondItem="3w6-G2-iHY" secondAttribute="trailing" constant="30" id="Hpk-r5-Cif"/>
+                <constraint firstItem="n7h-Kb-YiA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="JEw-8f-Eor"/>
+                <constraint firstItem="b28-nc-tZh" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="Jon-Df-AaZ"/>
+                <constraint firstItem="tZY-jI-BhE" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="VVT-rv-5Ge"/>
+                <constraint firstItem="wj6-3r-4r2" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="WUV-fR-SNV"/>
+                <constraint firstItem="3w6-G2-iHY" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="WmJ-dk-Rc3"/>
+                <constraint firstItem="n7h-Kb-YiA" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="XV2-9F-nb6"/>
+                <constraint firstItem="Q0p-Sh-aMy" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="aAT-c4-K9c"/>
+                <constraint firstItem="3w6-G2-iHY" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="bpS-7m-FB7"/>
+                <constraint firstItem="tZY-jI-BhE" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="fGa-cL-ct3"/>
+                <constraint firstItem="Lm0-7z-AcG" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="fJY-Wv-cEq"/>
+                <constraint firstItem="wj6-3r-4r2" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="hIt-2L-Jba"/>
+                <constraint firstItem="NYH-c5-4gg" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="mbq-x3-ww4"/>
+                <constraint firstItem="n7h-Kb-YiA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="pET-n9-WXf"/>
+                <constraint firstItem="4YI-n3-wGz" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="pYU-8Z-PH5"/>
+                <constraint firstItem="4YI-n3-wGz" firstAttribute="leading" secondItem="wj6-3r-4r2" secondAttribute="trailing" constant="30" id="qlr-WU-tSp"/>
+                <constraint firstItem="tZY-jI-BhE" firstAttribute="leading" secondItem="NYH-c5-4gg" secondAttribute="trailing" constant="30" id="skc-Uw-qPF"/>
+                <constraint firstItem="941-Ct-xpa" firstAttribute="top" secondItem="n7h-Kb-YiA" secondAttribute="top" id="u75-5z-ujc"/>
+                <constraint firstItem="941-Ct-xpa" firstAttribute="leading" secondItem="Q0p-Sh-aMy" secondAttribute="trailing" constant="30" id="w0l-Ig-P8Z"/>
+                <constraint firstItem="b28-nc-tZh" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="wWk-Nj-CKn"/>
+                <constraint firstItem="941-Ct-xpa" firstAttribute="bottom" secondItem="n7h-Kb-YiA" secondAttribute="bottom" id="xQ1-4c-dLf"/>
+                <constraint firstItem="3w6-G2-iHY" firstAttribute="leading" secondItem="b28-nc-tZh" secondAttribute="trailing" constant="30" id="xfh-ui-o2L"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-1" y="-115"/>
+        </view>
+    </objects>
+</document>

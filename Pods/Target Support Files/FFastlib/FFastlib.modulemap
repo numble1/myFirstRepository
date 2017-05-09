@@ -1,0 +1,6 @@
+framework module FFastlib {
+  umbrella header "FFastlib-umbrella.h"
+
+  export *
+  module * { export * }
+}
