@@ -11,11 +11,14 @@
 @protocol webDelegate <NSObject>
 -(void)back;
 -(void)forward;
--(void)main;
 @end
 
 
 
 @interface DpageViewController : UIViewController
-@property(nonatomic,assign)id <webDelegate>delegate ;
+@property(nonatomic,weak)id <webDelegate>delegate ;
+//暴露在外面方便其他控制器获取判断
+@property(nonatomic,strong) UIPageViewController *pageVC;
+@property (nonatomic,strong)NSMutableArray *viewControllers;
+-(void)creatWebWith:(NSURL *)url;
 @end

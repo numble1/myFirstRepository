@@ -7,7 +7,8 @@
 //
 
 #import "GeneralViewController.h"
+#import "DpageViewController.h"
 
 @interface RightViewController : GeneralViewController
-
+@property (nonatomic, strong)DpageViewController *DpageC;
 @end

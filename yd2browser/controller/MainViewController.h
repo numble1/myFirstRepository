@@ -7,17 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseCtrl.h"
-
-@protocol searchbarDelegate <NSObject>
-//动态显示左右按钮
--(void)hide;
--(void)show;
+#import "GeneralViewController.h"
+@protocol safariDelegate<NSObject>
+-(void)creatWebWith:(NSURL*)url;
 
 @end
 
-@interface MainViewController : BaseCtrl
-@property(nonatomic,assign)id <searchbarDelegate>delegate;
+@interface MainViewController : GeneralViewController
+@property(nonatomic,weak)id <safariDelegate>delegate;
 -(void)reloadTableView;
 
 @end

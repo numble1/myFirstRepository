@@ -153,6 +153,7 @@
     }
     
     [USERDEFAULTS setObject:res forKey:LocalConfigKey];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"createBtn" object:nil];
     NSLog(@"request succeed ! content:%@",res);
 }
 

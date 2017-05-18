@@ -7,13 +7,10 @@
 //
 
 #import "GeneralViewController.h"
-
-@protocol writeTittleDelegate <NSObject>
--(void)writeToTitle:(NSString*)str;
-@end
+#import "DpageViewController.h"
 
 @interface WebViewController : GeneralViewController
-@property(nonatomic,strong)NSString *urlStr;
-@property(nonatomic,assign)id <writeTittleDelegate> delegate;
-@property(nonatomic,strong)UIWebView *webView;
+@property(nonatomic,strong)NSURL *url;
+@property(nonatomic,strong)DpageViewController *DpageC;
+-(void)reload;
 @end

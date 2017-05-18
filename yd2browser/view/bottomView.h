@@ -20,5 +20,5 @@
 
 
 @interface bottomView : UIView
-@property(nonatomic,assign)id<bottomDelegate>delegate;
+@property(nonatomic,weak)id<bottomDelegate>delegate;
 @end

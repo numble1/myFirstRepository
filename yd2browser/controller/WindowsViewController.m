@@ -21,9 +21,10 @@
 
 @implementation WindowsViewController
 -(NSMutableArray *)pageControls{
-    if (!_pageControls) {
+    if (!_pageControls){
         _pageControls = [NSMutableArray array];
-        [_pageControls addObject:[self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([DpageViewController class])]];
+        UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([DpageViewController class])]];
+        [_pageControls addObject:navi];
     }return _pageControls;
 }
 //+(windowsViewController*)sharedWindows{
@@ -58,24 +59,43 @@
     self.carousel.scrollSpeed = 0.1f;
     self.carousel.bounceDistance = 0.2f;
     self.carousel.viewpointOffset = CGSizeMake(-cardWidth/5.0f, 0);
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, mainHeight-60,mainWight, 60)];
-    view.backgroundColor = [UIColor whiteColor];
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, mainHeight-50,mainWight, 50)];
+    view.backgroundColor = [UIColor colorWithHexString:@"282828"];
+    view.tintColor = [UIColor whiteColor];
+    UIButton *allDeleteBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [allDeleteBtn setTitle:@"全部关闭" forState:UIControlStateNormal];
+    allDeleteBtn.frame = CGRectMake(0, 0, mainWight/3,50);
+    [allDeleteBtn addTarget:self action:@selector(deleAll) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *addBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [addBtn setImage:[UIImage imageNamed:@"jia"] forState:UIControlStateNormal];
+    addBtn.frame = CGRectMake(mainWight/3+45, 15, mainWight/3.3-90,50-30);
+    [addBtn addTarget:self action:@selector(creat) forControlEvents:UIControlEventTouchUpInside];
     UIButton *backBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    backBtn.frame = CGRectMake(0, 0, mainWight/2,60);
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *creatBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [creatBtn setTitle:@"新建" forState:UIControlStateNormal];
-    [creatBtn addTarget:self action:@selector(creat) forControlEvents:UIControlEventTouchUpInside];
-    creatBtn.frame = CGRectMake(mainWight/2, 0, mainWight/2,60);
-    [view addSubview:creatBtn];
+    backBtn.frame = CGRectMake(2*mainWight/3, 0, mainWight/3,50);
     [view addSubview:backBtn];
+    [view addSubview:addBtn];
+    [view addSubview:allDeleteBtn];
     [self.view addSubview:view];
 }
+
+
 -(void)viewWillAppear:(BOOL)animated{
     [self.carousel reloadData];
+     [self.carousel scrollToItemAtIndex:self.pageControls.count-1 animated:YES];
     static dispatch_once_t onceToken;
+    for (UIView * vi in self.view.subviews) {
+        if (vi.tag==1000) {
+            [vi removeFromSuperview];
+        }
+    }
     dispatch_once(&onceToken, ^{
+        UIView *view = [[UIView alloc]init];
+        view.frame = CGRectMake(0, 0, mainWight, mainHeight);
+        view.backgroundColor = [UIColor whiteColor];
+        view.tag = 1000;
+        [self.view addSubview:view];
         [self presentViewController:self.pageControls[0] animated:NO completion:nil];
     });
 }
@@ -83,19 +103,26 @@
 }
 -(void)creat{
     DpageViewController *gdCtrl = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([DpageViewController class])];
-    [self.pageControls addObject:gdCtrl];
-    [self.carousel reloadData];
-    [self.carousel scrollToItemAtIndex:self.pageControls.count-1 animated:YES];
+    UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:gdCtrl];
+    [self.pageControls addObject:navi];
+    [self presentViewController:navi animated:YES completion:nil];
 }
 -(void)back{
     if (self.pageControls.count == 0) {
-        [self.pageControls addObject:[DpageViewController new]];
+        [self.pageControls addObject:[[UINavigationController alloc]initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([DpageViewController class])]]];
     }
     if (self.carousel.currentItemIndex<0) {
         [self presentViewController:self.pageControls[0] animated:YES completion:nil];
     }else{
         [self presentViewController:self.pageControls[self.carousel.currentItemIndex] animated:YES completion:nil];
     }
+}
+-(void)deleAll{
+    for (int i = 0;i<self.pageControls.count;i++) {
+        [self.carousel removeItemAtIndex:i animated:YES];
+    }
+    [self.pageControls removeAllObjects];
+    [self back];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -136,9 +163,11 @@
     [self.carousel removeItemAtIndex:sender.tag animated:YES];
     [self.pageControls removeObjectAtIndex:sender.tag];
     if (self.pageControls.count == 0) {
-        return;
+        [self back];
     }
-    [self.carousel reloadData];
+    else{
+        [self.carousel reloadData];
+    }
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(UIView *)view
 {
@@ -150,14 +179,14 @@
     UIGraphicsEndImageContext();
     CGRect rect = CGRectMake(0, 0, 300/1.2, 480/1.2);
     UIImageView*imageV  = [[UIImageView alloc]initWithImage:viewImage];
+    imageV.userInteractionEnabled = YES;
     imageV.frame = rect;
-    UIButton *delete = [UIButton buttonWithType:UIButtonTypeSystem];
-    [delete setImage:[UIImage imageNamed:@"删除"] forState:UIControlStateNormal];
+    UIButton *delete = [UIButton buttonWithType:UIButtonTypeCustom];
+    [delete setImage:[UIImage imageNamed:@"topbar_close"] forState:UIControlStateNormal];
     [delete addTarget:self action:@selector(delete:) forControlEvents:UIControlEventTouchUpInside];
-    delete.frame = CGRectMake(-10,-10,40, 40);
+    delete.frame = CGRectMake( 300/2.4-20,-5,40, 40);
     delete.tag = index;
     [imageV addSubview:delete];
-    imageV.userInteractionEnabled = YES;
     return imageV;
     //    UIView *cardView = view;
     //

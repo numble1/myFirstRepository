@@ -14,6 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - AppTaoLu (0.1.6):
+    - SDWebImage (~> 4)
+    - TLRemoteConfig (~> 0.1.0)
   - BCUserTrack (5.1.0.9):
     - UTDID
   - FFastlib (0.1.5):
@@ -79,6 +82,7 @@ PODS:
     - SGMain
 
 DEPENDENCIES:
+  - AppTaoLu (~> 0.1.6)
   - FFastlib
   - iCarousel
   - NJKWebViewProgress (~> 0.2.3)
@@ -88,6 +92,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AppTaoLu: 4b8da38b3cb89c9406c6d69e32d04bde52448be6
   BCUserTrack: 684f468b8143be7a2ed10a8c449fd959b2a3a099
   FFastlib: 19715034ec5f2f1ecd0a1b833d57eed78cbdaa1e
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
@@ -106,6 +111,6 @@ SPEC CHECKSUMS:
   UTDID: 05c4737c8cf5c210e86d0235570816ed00e023e8
   YWFeedbackFMWK: dcf0f60a24099f9a35d3445ae9ef79f3633ef9f6
 
-PODFILE CHECKSUM: f7d153831be6a1a49a25bed9976e95b162a8ffa6
+PODFILE CHECKSUM: ed86480738c43b8a2095410b8c60d2659bc9c384
 
 COCOAPODS: 1.2.0

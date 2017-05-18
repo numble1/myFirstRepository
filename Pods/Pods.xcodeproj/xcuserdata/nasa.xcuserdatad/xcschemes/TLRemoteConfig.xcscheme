@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '549AB5548FF9E0ECE38C4C2498647234'
+               BlueprintIdentifier = '9B3D7683CD5B8DEB8757F07B946B5E23'
                BlueprintName = 'TLRemoteConfig'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'TLRemoteConfig.framework'>

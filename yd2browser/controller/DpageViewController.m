@@ -8,29 +8,28 @@
 
 #import "DpageViewController.h"
 #import "MainViewController.h"
-#import "WebViewController.h"
 #import "WindowsViewController.h"
+#import "WebViewController.h"
 #import "RightViewController.h"
 #import "bookmarkBean.h"
 #import "bottomView.h"
+#import "bookMarkEditViewController.h"
+#import "SetViewController.h"
+#import "clearViewController.h"
+#import "iOSNativeShare.h"
 
-@interface DpageViewController ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UIScrollViewDelegate,UISearchBarDelegate,writeTittleDelegate,bottomDelegate,searchbarDelegate>
-@property(nonatomic,strong) UIPageViewController *pageVC;
+#define animateTime 2
+@interface DpageViewController ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource,UIScrollViewDelegate,UISearchBarDelegate,bottomDelegate,safariDelegate>
+
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIView *mainView;
-@property (nonatomic,strong)NSMutableArray *viewControllers;
 @property(nonatomic,strong)UIViewController*currentCtrl;
 @property (unsafe_unretained,nonatomic)CGRect rect;
 @property (weak, nonatomic) IBOutlet UIButton *indexBtn;
 @property (weak, nonatomic) IBOutlet UIButton *forward;
 @property (weak, nonatomic) IBOutlet UIButton *back;
 @property(nonatomic,strong)bottomView *exploreBottomView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *width;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *secondWidth;
-@property (weak, nonatomic) IBOutlet UIView *topView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searbar;
-@property (weak, nonatomic) IBOutlet UIButton *collectBtn;
-@property (weak, nonatomic) IBOutlet UIButton *RefreshBtn;
+
 
 @end
 
@@ -48,8 +47,10 @@
         _viewControllers = [NSMutableArray array];
         MainViewController *main = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([MainViewController class])];
         main.delegate = self;
-        [_viewControllers addObject:[self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([RightViewController class])]];
-        [_viewControllers addObject:main];
+         [_viewControllers addObject:main];
+        RightViewController *right = [self.storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([RightViewController class])];
+        right.DpageC = self;
+        [_viewControllers addObject:right];
     }
     return _viewControllers;
 }
@@ -58,7 +59,7 @@
         _pageVC = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
         _pageVC.dataSource = self;
         _pageVC.delegate = self;
-        self.pageVC.view.frame = self.mainView.frame;
+        self.pageVC.view.frame =SCREEN_BOUNDS;
         [self.view addSubview:_pageVC.view];
 //        [_pageVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.top.left.bottom.right.mas_equalTo(self.mainView);
@@ -66,10 +67,9 @@
         for (UIView *subview in _pageVC.view.subviews) {
             [(UIScrollView *)subview setDelegate:self];
             //设置是否支持手势滑动
-            //            [(UIScrollView *)subview setScrollEnabled:NO];
-            
+            //           [(UIScrollView *)subview setScrollEnabled:NO];
         }
-          [_pageVC setViewControllers:@[self.viewControllers[1]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+          [_pageVC setViewControllers:@[self.viewControllers[0]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     }
     return _pageVC;
 }
@@ -77,19 +77,32 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    
+    self.navigationController.navigationBarHidden = NO;
+}
+#pragma mark safariDelegate
+-(void)creatWebWith:(NSURL *)url{
+    WebViewController *web = nil;
+    if (self.viewControllers.count == 2) {
+        web = [self.storyboard instantiateViewControllerWithIdentifier:@"WebViewController"];
+        [self.viewControllers insertObject:web atIndex:0];
+        web.DpageC = self;
+        web.url=url;
+    }
+    else{
+        web = self.viewControllers[0];
+        web.url=url;
+        [web reload];
+    }
+    [_pageVC setViewControllers:@[web] direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.backBarButtonItem.title = @"返回";
     [self hide];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setBtnText:) name:@"setBtnText" object:nil];
-    //存储全局变量书签
-    NSMutableArray *arr = [NSMutableArray array];
     self.delegate = self.viewControllers[0];
     self.delegate = self.viewControllers[1];
-    [[NSUserDefaults standardUserDefaults]setObject:arr forKey:@"bookmarks"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideExploreView) name:@"hideExplore" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(endEdit) name:@"endEdit" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeBtnStatus:) name:@"changeBtnStatus" object:nil];
     [self addChildViewController:self.pageVC];
   //  [self.view addSubview:self.pageVC.view];
@@ -100,42 +113,32 @@
     NSDictionary *dic = noti.userInfo;
     [self.indexBtn setTitle:dic[@"num"] forState:UIControlStateNormal];
 }
-- (IBAction)reFreshWebView:(id)sender {
-    if ([self.currentCtrl isKindOfClass:[WebViewController class]]) {
-        WebViewController *viewCtrl = (WebViewController*)self.currentCtrl;
-        [viewCtrl.webView reload];
-    }
-    else{
-        MainViewController *viewCtrl = (MainViewController*)self.currentCtrl;
-        [viewCtrl reloadTableView];
-    }
-}
-- (IBAction)collect:(id)sender {
-    
-}
+
 -(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
     [super viewWillAppear:animated];
-    self.searbar.placeholder = @"请输入网址";
 }
+
 #pragma mark searchBarDelegate
 -(void)hide{
-    self.topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-    self.searbar.backgroundImage = [UIImage imageNamed:@"bg"];
-  //  self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-    self.width.constant=0;
-    self.secondWidth.constant=0;
+//    [UIView animateWithDuration:animateTime animations:^{
+//        self.topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+//        self.searbar.backgroundImage = [UIImage imageNamed:@"bg"];
+//        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+//    }];
+   
 }
 -(void)show{
-    self.topView.backgroundColor = [UIColor whiteColor];
-    self.searbar.backgroundImage = nil;
-    // self.view.backgroundColor = [UIColor whiteColor];
-    self.width.constant=40;
-    self.secondWidth.constant=40;
+//    [UIView animateWithDuration:animateTime animations:^{
+//    self.topView.backgroundColor = [UIColor clearColor];
+//    self.searbar.backgroundImage = nil;
+//    self.view.backgroundColor = [UIColor clearColor];}];
+   
 }
 #pragma mark searchDelegat
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    WebViewController *webCtrl = [[WebViewController alloc] init];
-    webCtrl.urlStr = [NSString stringWithFormat:@"https://%@",searchBar.text];
+//    WebViewController *webCtrl = [[WebViewController alloc] init];
+//    webCtrl.urlStr = [NSString stringWithFormat:@"https://%@",searchBar.text];
 }
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     return YES;
@@ -168,74 +171,60 @@
     index--;
     return self.viewControllers[index];
 }
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray<UIViewController *> *)pendingViewControllers{
-    if ([pendingViewControllers.firstObject isKindOfClass:[MainViewController class]]) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadView" object:nil];
-        self.topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-        self.searbar.backgroundImage = [UIImage imageNamed:@"bg"];
-        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-        
-    }
-    else{
-        self.topView.backgroundColor = [UIColor whiteColor];
-        self.searbar.backgroundImage = nil;
-        //  self.searbar.backgroundColor = [UIColor whiteColor];
-        self.view.backgroundColor = [UIColor whiteColor];}
-}
 
 
--(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed{
-    if ([pageViewController.viewControllers.firstObject isKindOfClass:[MainViewController class]]){
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadView" object:nil];
-        self.topView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-        self.searbar.backgroundImage = [UIImage imageNamed:@"bg"];
-        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-    }
-    else{
-        self.topView.backgroundColor = [UIColor whiteColor];
-        self.searbar.backgroundImage = nil;
-        //  self.searbar.backgroundColor = [UIColor whiteColor];
-        self.view.backgroundColor = [UIColor whiteColor];
-  }
-}
+
+
 -(void)endEdit{
     //[self.textField endEditing:YES];
 }
-#pragma mark editbookmark
--(void)addbookMarkBean:(bookmarkBean *)bookMarkBean{
-    NSMutableArray *arr = [[NSUserDefaults standardUserDefaults]objectForKey:@"bookmarks"];
-    [arr addObject:bookMarkBean];
-    [[NSUserDefaults standardUserDefaults]setObject:arr forKey:@"bookmarks"];
-}
-#pragma mark WriteTittleDelegat
--(void)writeToTitle:(NSString *)str{
-  //  self.searchBar.text = str;
-}
 
-- (IBAction)backward:(id)sender {
+
+/*前进回退逻辑
+ 在网页内goback goforward
+ 在网页外就是pageviewcontrollers的切换
+ */
+ - (IBAction)backward:(id)sender {
+    if ([self.pageVC.viewControllers[0] isKindOfClass:[MainViewController class]]) {
+       // [self.pageVC setViewControllers:@[self.viewControllers[self.viewControllers.count-1]] direction:  UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
+    }
+    else{
     [self.delegate back];
+    }
 }
 - (IBAction)forward:(id)sender {
+    if ([self.pageVC.viewControllers[0] isKindOfClass:[RightViewController class]]) {
+     //   [self.pageVC setViewControllers:@[self.viewControllers[self.viewControllers.count-2]] direction:  UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    }
+    else if ([self.pageVC.viewControllers[0] isKindOfClass:[MainViewController class]]){
+        [self.pageVC setViewControllers:@[self.viewControllers[self.viewControllers.count-3]] direction:  UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    }
+    else{
     [self.delegate forward];
+    }
 }
 -(void)changeBtnStatus:(NSNotification*)noti{
     NSDictionary *dic = noti.userInfo;
+    NSString *webload = dic[@"webload"];
+    if (([self.pageVC.viewControllers[0] isKindOfClass:[MainViewController class]]||[self.pageVC.viewControllers[0] isKindOfClass:[RightViewController class]])&&[webload isEqualToString:@"true"]) {
+        return;
+    }
     NSString *back = dic[@"back"];
     NSString *forward = dic[@"forward"];
     if ([back isEqualToString:@"true"]) {
-        [self.back setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
+        [self.back setImage:[UIImage imageNamed:@"previous_click"] forState:UIControlStateNormal];
         self.back.userInteractionEnabled = YES;
     }
     else{
-         [self.back setImage:nil forState:UIControlStateNormal];
+         [self.back setImage:[UIImage imageNamed:@"previous_unclick"] forState:UIControlStateNormal];
         self.back.userInteractionEnabled = NO;
     }
     if ([forward isEqualToString:@"true"]) {
-        [self.forward setImage:[UIImage imageNamed:@"下一步"] forState:UIControlStateNormal];
+        [self.forward setImage:[UIImage imageNamed:@"next_click"] forState:UIControlStateNormal];
         self.forward.userInteractionEnabled = YES;
     }
     else{
-         [self.forward setImage:nil forState:UIControlStateNormal];
+         [self.forward setImage:[UIImage imageNamed:@"next_unclick"] forState:UIControlStateNormal];
         self.forward.userInteractionEnabled = NO;
     }
     
@@ -244,7 +233,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)goHome:(id)sender {
-    [self.delegate main];
+    if (self.viewControllers.count==2) {
+         [self.pageVC setViewControllers:@[self.viewControllers[0]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    }
+    else{
+         [self.pageVC setViewControllers:@[self.viewControllers[self.viewControllers.count-2]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+    }
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"reloadView" object:nil];
 }
 - (IBAction)explore:(id)sender {
     [self showBottomView];
@@ -262,10 +257,13 @@
 }
 #pragma mark bottomViewDelegate
 -(void)clear{
-    
+     [self dismiss];
+    self.title = @"清除数据";
+    [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"clearViewController"] animated:YES];
 }
 -(void)share{
-    
+     [self dismiss];
+     [iOSNativeShare shareText:@"发现一个很有用的浏览器软件，快来下载吧 itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1225872208"];
 }
 -(void)dismiss{
     [UIView animateWithDuration:0.3 animations:^{
@@ -273,9 +271,13 @@
     }];
 }
 -(void)set{
+     [self dismiss];
+      self.title = @"设置";
+    [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"SetViewController"] animated:YES];
 }
 -(void)bookmark{
-    
+    [self dismiss];
+    [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"bookMarkEditViewController"] animated:YES];
 }
 
 

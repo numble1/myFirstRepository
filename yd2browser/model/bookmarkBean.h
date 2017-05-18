@@ -12,6 +12,9 @@ typedef NS_ENUM(NSInteger, beanStyle) {
     mainStyle,
     commonUserStyle
 };
-@interface bookmarkBean : baseBean
+@interface bookmarkBean : baseBean<NSCoding>
 @property (unsafe_unretained,nonatomic)beanStyle style;
+@property(nonatomic,strong)NSString *iconStr;
+-(id)initWithUrlStr:(NSString*)str icon:(NSString*)iconUrlStr title:(NSString*)title;
+
 @end

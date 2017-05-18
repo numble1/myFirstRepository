@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="98" height="112"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="星" translatesAutoresizingMaskIntoConstraints="NO" id="Eaw-ct-4yL">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topbar_shuqian_unselect" translatesAutoresizingMaskIntoConstraints="NO" id="Eaw-ct-4yL">
                         <rect key="frame" x="34" y="31" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="3ME-aX-LIb"/>
@@ -33,6 +32,7 @@
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="KmE-md-lTV" secondAttribute="trailing" id="JLf-32-qUJ"/>
                 <constraint firstItem="Eaw-ct-4yL" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="avx-zY-G5U"/>
@@ -41,10 +41,14 @@
                 <constraint firstItem="KmE-md-lTV" firstAttribute="top" secondItem="Eaw-ct-4yL" secondAttribute="bottom" constant="5" id="v0x-qc-ETx"/>
             </constraints>
             <size key="customSize" width="230" height="195"/>
+            <connections>
+                <outlet property="icon" destination="Eaw-ct-4yL" id="UKq-di-yKr"/>
+                <outlet property="label" destination="KmE-md-lTV" id="oFT-QG-mNo"/>
+            </connections>
             <point key="canvasLocation" x="-67" y="-59"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="星" width="22" height="22"/>
+        <image name="topbar_shuqian_unselect" width="22" height="22"/>
     </resources>
 </document>

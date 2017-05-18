@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "baseBean.h"
 
-@interface NewsBean : baseBean <NSCoding>
+@interface NewsBean : baseBean
 @property (retain, nonatomic) NSString *name;
 @property (retain, nonatomic) NSString *desc;
 @property (retain, nonatomic) NSString *time;

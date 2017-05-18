@@ -14,7 +14,7 @@
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
-
+#define SCREEN_BOUNDS [UIScreen mainScreen].bounds
 #define appDelegate ((AppDelegate *)[[UIApplication sharedApplication] delegate])
 
 // 阿里百川appkey
@@ -22,5 +22,10 @@
 // umeng appkey
 #define UMengAPPKey @""
 // umeng channel
-
+#define NEWS_API @"http://service.newsad.adesk.com/v1/categorynews"
+#define UMengChannel @"AppStore"
+#define HISTORY @"history"
+#define BOOKMARKS @"bookmarks"
+#define COMMONWEBSITE @"commonwebsite"
+#define KWINDOW [UIApplication sharedApplication].delegate.window
 @import TLRemoteConfig;

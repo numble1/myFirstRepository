@@ -23,8 +23,7 @@ pod 'TLRemoteConfig', '~> 0.1.0'
 pod 'iCarousel'
 # webView进度条
 pod 'NJKWebViewProgress','~>0.2.3'
-
-
+pod 'AppTaoLu', '~> 0.1.6'
 
 target 'yd2browser' do
 
